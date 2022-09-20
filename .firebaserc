@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "personalnotebook-e7ef3": {
+      "hosting": {
+        "PersonalNotebook": [
+          "personalnotebook-e7ef3"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "personalnotebook-e7ef3"
+  }
+}
