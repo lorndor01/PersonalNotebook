@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'app-root',

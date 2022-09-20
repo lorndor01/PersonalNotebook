@@ -94,6 +94,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "PersonalNotebook:build:production",
+            "firebaseProject": "personalnotebook-e7ef3",
+            "firebaseHostingSite": "personalnotebook-e7ef3"
+          }
         }
       }
     }

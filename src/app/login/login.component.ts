@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnInit, Renderer2, EventEmitter} from '@angular/core';
-import { CurrentUserService } from '../current-user.service';
+import { iif } from 'rxjs';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -11,26 +12,32 @@ import { CurrentUserService } from '../current-user.service';
 export class LoginComponent implements OnInit {
 
   constructor(private renderer: Renderer2,
-              private userService: CurrentUserService ) { 
+              private userService: UserService ) { 
   }
   ngOnInit(): void { 
   }
   @Input() loggedIn: boolean = false;
   nameInput: string = '';
   passwordInput: string = '';
-  @Output() loggedInChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() loggedInChange = new EventEmitter<boolean>();
   onSubmit(): void{
     this.nameInput.length==0 ? this.changeBorderColor(0, 'red') : this.changeBorderColor(0, 'black');
     this.passwordInput.length==0 ? this.changeBorderColor(1, 'red') : this.changeBorderColor(1, 'black');
     if(this.nameInput.length&&this.passwordInput.length){
-      if(this.userService.setCurrentUser(this.nameInput, this.passwordInput)){
-        this.loggedInChange.emit(true);
+      let userObject = this.userService.getUser(this.nameInput)
+      if(userObject==null){
+        //username isn't found
+        this.changeBorderColor(0, 'red');
+        return;
       }
-      else{
+      if(userObject.password != this.passwordInput){
+        //user exists but wrong password
         this.changeBorderColor(1, 'red');
+        return;
       }
+      //everything good to good.
+      this.loggedInChange.emit(true);
     }
-
   }
   changeBorderColor(childIndex:number, colorValue:string){
     const parent = document.getElementById('loginBox');
